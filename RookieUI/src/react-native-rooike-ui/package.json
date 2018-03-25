@@ -1,0 +1,25 @@
+{
+  "name": "react-native-rooike-ui",
+  "version": "1.0.0-alpha1",
+  "description": "easy user UI, which a rookie can image and change ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milawoai/react-native-rookie-ui.git"
+  },
+  "keywords": [
+    "react-native",
+    "javascript",
+    "UI",
+    "Object-C"
+  ],
+  "author": "shijie zhou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/milawoai/react-native-rookie-ui/issues"
+  },
+  "homepage": "https://github.com/milawoai/react-native-rookie-ui#readme"
+}
