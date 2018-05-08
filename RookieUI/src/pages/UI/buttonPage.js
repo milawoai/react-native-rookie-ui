@@ -8,7 +8,10 @@ import {
 import { px2dp , px2sp} from '../../utils/screenUtils'
 import {
   Button
-} from '../../react-native-rooike-ui'
+} from 'react-native-rooike-ui'
+
+// import Button from '../../react-native-rooike-ui/widgets/button/baseButton'
+
 
 import * as commonStyle from '../../commonLib/commonStyle'
 
@@ -79,27 +82,135 @@ const asyncFuc = (delay = 1000) => {
   }
 }
 
+const syncFuc = () => {
+  return () => console.warn(`syncFuc`)
+}
+
 export default class ButtonPage extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loading: false
+    }
 
     const Buttons = {
       title: 'Button',
       buttonInfos: [
         (
-          <Button onPress={asyncFuc(2000)}>
-            <Text>Hello</Text>
+          <Button center onPress={asyncFuc(2000)} style={{backgroundColor: 'red'}}>
+            <Text style={{color: 'white'}}>default</Text>
           </Button>
-        ),
-        (
-          <CustomHUD />
         )
       ]
     }
 
+    const MultiClickButtons = {
+      title: 'MutilClickButtons',
+      buttonInfos: [
+        (
+          <Button onPress={asyncFuc(2000)}
+                  pressCtrlMode = {Button.PressCtrlMode.none}
+                  linearGradientConfig = {{
+                    colors: ['#feb800', '#f9d308'],
+                    start: {x: 0.3, y: 0},
+                    end: {x: 1, y: 0}
+                  }}
+          >
+            <Text style={{color: 'black'}}>{Button.PressCtrlMode.none}</Text>
+          </Button>
+        ),
+        (
+          <Button center onPress={asyncFuc(2000)} style={{backgroundColor: 'yellow'}}
+                  indicatorConfigs = {{
+                    color: 'black'
+                  }}
+                  pressCtrlMode = {Button.PressCtrlMode.async}
+          >
+            <Text style={{color: 'black'}}>{Button.PressCtrlMode.async}</Text>
+          </Button>
+        ),
+        (
+          <Button onPress={syncFuc()} style={{backgroundColor: 'yellow'}}
+                  indicatorConfigs = {{
+                    color: 'black'
+                  }}
+                  pressCtrlMode = {Button.PressCtrlMode.antiShark}
+                  delay = {2000}
+          >
+            <Text style={{color: 'black'}}>{Button.PressCtrlMode.antiShark}</Text>
+          </Button>
+        ),
+        (
+          <Text>{Button.PressCtrlMode.custom} in last section!</Text>
+        )
+      ]
+    }
+
+    const IndicateButtons = {
+      title: 'IndicateButtons',
+      buttonInfos: [
+        (
+          <Button onPress={asyncFuc(2000)} style={{backgroundColor: 'green'}} ignoreIndicator>
+            <Text style={{color: 'black'}}>ignoreIndicator</Text>
+          </Button>
+        ),
+        (
+          <Button onPress={asyncFuc(2000)} activeOpacity={1}
+                  style={{backgroundColor: 'green'}}
+                  indicatorConfigs = {{
+                    animating: true,
+                    size: 'large',
+                    color: 'black',
+                    style: {alignSelf: 'flex-start'}
+                  }}>
+            <Text>indicatorConfigs</Text>
+          </Button>
+        ),
+        (
+          <Button onPress={asyncFuc(2000)} activeOpacity={1}
+                  style={{backgroundColor: 'green'}}
+                  customIndicator={<CustomHUD />}>
+            <Text>customIndicator</Text>
+          </Button>
+        )
+      ]
+    }
+
+    const DisableButtons = {
+      title: 'IndicateButtons',
+      buttonInfos: [
+        (
+          <Button onPress={asyncFuc(2000)} style={{backgroundColor: '#991488'}} disabled>
+            <Text style={{color: 'white'}}>ignoreIndicator</Text>
+          </Button>
+        ),
+        (
+          <Button onPress={asyncFuc(2000)} activeOpacity={1}
+                  style={{backgroundColor: 'green'}}
+                  indicatorConfigs = {{
+                    animating: true,
+                    size: 'large',
+                    color: 'black',
+                    style: {alignSelf: 'flex-start'}
+                  }}>
+            <Text>indicatorConfigs</Text>
+          </Button>
+        ),
+        (
+          <Button onPress={asyncFuc(2000)} activeOpacity={1}
+                  style={{backgroundColor: 'green'}}
+                  customIndicator={<CustomHUD />}>
+            <Text>customIndicator</Text>
+          </Button>
+        )
+      ]
+    }
 
     this.modalApis = [
-      Buttons
+      Buttons,
+      MultiClickButtons,
+      IndicateButtons
     ]
   }
 
@@ -114,8 +225,46 @@ export default class ButtonPage extends Component {
     return (
       <ScrollView>
         {cells}
+
+        <View style = {CellItemStyle.cellContainer}>
+          <View style = {CellItemStyle.cellTitleContainer}>
+            <Text style={CellItemStyle.cellTitle}>{'special control'}</Text>
+          </View>
+          <View style={[CellItemStyle.buttonAreaContainer]}>
+            <Button onPress={this.innerAsync} style={{backgroundColor: 'yellow'}}
+                    indicatorConfigs = {{
+                      color: 'black',
+                    }}
+                    pressCtrlMode = {Button.PressCtrlMode.custom}
+                    loading = {this.state.loading}
+            >
+              <Text style={{color: 'black'}}>{Button.PressCtrlMode.custom}</Text>
+            </Button>
+          </View>
+        </View>
+
       </ScrollView>
     )
+  }
+
+  innerAsync = () => {
+    this.setState({
+      loading: true
+    }, () => {
+      console.warn(`button block`)
+    })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+      }, 2000)
+    }).then( () => {
+      console.warn(`innerAsync : ${2000}`)
+      this.setState({
+        loading: false
+      }, () => {
+        console.warn(`button can click`)
+      })
+    })
   }
 }
 

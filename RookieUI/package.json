@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-navigation": "^1.0.0-beta.15",
-    "react-native-vector-icons": "^4.3.0",
-    "react": "^16.3.0-alpha.1",
+    "prop-types": "^15.6.1",
+    "react": "16.3.0-alpha.1",
     "react-native": "0.54.2",
+    "react-native-rooike-ui": "^1.0.0-alpha2",
+    "react-native-vector-icons": "^4.3.0",
+    "react-navigation": "^1.0.0-beta.15",
     "static-container": "^1.2.0"
   },
   "devDependencies": {
